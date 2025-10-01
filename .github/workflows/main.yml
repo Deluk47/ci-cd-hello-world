@@ -1,0 +1,30 @@
+name: Python application CI/CD #Name of the file
+
+on:    # Describes the event that will trigger the workflow
+  push:
+    branches: [ main ]    # The workflow will trigger on the push to the main branch.
+  pull_request:
+    branches: [ main ]    # The workflow will trigger on the pull request from the main branch
+
+# The triggers ensure every push and pull request triggers the workflow
+# This is to ensure the main branch remains stable.
+
+jobs:    # The jobs run in sequence unless specified, 
+  build:
+
+    runs-on: ubuntu-latest    # The build shows what it should run on
+
+    steps:       #The steps show the sequence of tasks to be carried / executed, 
+    
+    - uses: actions/checkout@v2 
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install unittest
+    - name: Test with unittest
+      run: |
+        python -m unittest discover -v
